@@ -34,6 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText visor;
 
+    private Button btnPv;
+    private Button btnFv;
+    private Button btnPmt;
+    private Button btnI;
+    private Button btnN;
+    private Button btnVirgula;
+
     private Calculadora calculadora;
 
     @Override
@@ -68,8 +75,15 @@ public class MainActivity extends AppCompatActivity {
         btnDivisao = findViewById(R.id.btnDivisao);
         btnClear = findViewById(R.id.btnClear);
 
+        btnPv = findViewById(R.id.btnPV);
+        btnFv = findViewById(R.id.btnFV);
+        btnPmt = findViewById(R.id.btnPMT);
+        btnI = findViewById(R.id.btnI);
+        btnN = findViewById(R.id.btnN);
+        btnVirgula = findViewById(R.id.btnVirgula);
+
         visor = findViewById(R.id.visor);
-        visor.setShowSoftInputOnFocus(false); // nao deixa o teclado do proprio celular aparecer
+        visor.setShowSoftInputOnFocus(false);
 
 
         btn1.setOnClickListener(botaoCLick("1"));
@@ -98,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             atualizarNumero();
         });
 
-        //VERIFICAR MODOS , EXIBINDO E EDITANDO
         btnAdicao.setOnClickListener((v) -> {
             //double valorVisor = Double.valueOf(visor.getText().toString());
             //calculadora.setNumero(valorVisor);
@@ -143,7 +156,119 @@ public class MainActivity extends AppCompatActivity {
             calculadora = new Calculadora();
         });
 
-    }
+
+        btnVirgula.setOnClickListener((v) -> {
+            if (calculadora.getModo() == Calculadora.MODO_EXIBINDO){
+                visor.setText("0,0");
+                calculadora.setModo(Calculadora.MODO_EDITANDO);
+            }
+            int inicioSelecao = visor.getSelectionStart();
+            int finalSelecao = visor.getSelectionEnd();
+            if (calculadora.getModo() == Calculadora.MODO_ERROR) {
+                visor.getText().replace(inicioSelecao, finalSelecao, "0,");
+            } else {
+                visor.getText().replace(inicioSelecao, finalSelecao, ",");
+            }
+        });
+
+    //Parte 2
+        btnPv.setOnClickListener((V) -> {
+        if (calculadora.getModo() == Calculadora.MODO_EXIBINDO) {
+            String valor = String.format("%.2f", calculadora.calcularPV());
+            visor.setText(valor);
+        }
+        else {
+            if (!(calculadora.getModo() == Calculadora.MODO_ERROR)) {
+                String visorText = visor.getText().toString().replace(",", ".");
+                double valor = Double.valueOf(visorText);
+                calculadora.setPv(valor);
+            } else {
+                double valor = 0.0;
+                calculadora.setPv(valor);
+            }
+            visor.setText("0,0");
+        }
+        calculadora.setModo(calculadora.MODO_EXIBINDO);
+    });
+
+        btnFv.setOnClickListener((V) -> {
+        if (calculadora.getModo() == Calculadora.MODO_EXIBINDO) {
+            String valor = String.format("%.2f", calculadora.calcularFV());
+            visor.setText(valor);
+        }
+        else {
+            if (!(calculadora.getModo() == Calculadora.MODO_ERROR)) {
+                String visorText = visor.getText().toString().replace(",", ".");
+                double valor = Double.valueOf(visorText);
+                calculadora.setFv(valor);
+            } else {
+                double valor = 0.0;
+                calculadora.setFv(valor);
+            }
+            visor.setText("0,0");
+        }
+        calculadora.setModo(calculadora.MODO_EXIBINDO);
+    });
+
+        btnPmt.setOnClickListener((V) -> {
+        if (calculadora.getModo() == Calculadora.MODO_EXIBINDO) {
+            String valor = String.format("%.2f", calculadora.calcularPmt());
+            visor.setText(valor);
+        }
+        else {
+            if (!(calculadora.getModo() == Calculadora.MODO_ERROR)) {
+                String visorText = visor.getText().toString().replace(",", ".");
+                double valor = Double.valueOf(visorText);
+                calculadora.setPmt(valor);
+            } else {
+                double valor = 0.0;
+                calculadora.setPmt(valor);
+            }
+            visor.setText("0,0");
+        }
+        calculadora.setModo(calculadora.MODO_EXIBINDO);
+    });
+
+        btnI.setOnClickListener((V) -> {
+        if (calculadora.getModo() == Calculadora.MODO_EXIBINDO) {
+            String valor = String.format("%.2f", calculadora.calcularI());
+            visor.setText(valor);
+        }
+        else {
+            if (!(calculadora.getModo() == Calculadora.MODO_ERROR)) {
+                String visorText = visor.getText().toString().replace(",", ".");
+                double valor = Double.valueOf(visorText);
+                calculadora.seti(valor/100);
+            } else {
+                double valor = 0.0;
+                calculadora.seti(valor/100);
+            }
+            visor.setText("0,0");
+        }
+        calculadora.setModo(calculadora.MODO_EXIBINDO);
+    });
+
+        btnN.setOnClickListener((V) -> {
+        if (calculadora.getModo() == Calculadora.MODO_EXIBINDO) {
+            String valor = String.format("%.2f", calculadora.calcularN());
+            visor.setText(valor);
+        }
+        else {
+            if (!(calculadora.getModo() == Calculadora.MODO_ERROR)) {
+                String visorText = visor.getText().toString().replace(",", ".");
+                double valor = Double.valueOf(visorText);
+                calculadora.setn(valor);
+            } else {
+                double valor = 0.0;
+                calculadora.setn(valor);
+            }
+            visor.setText("0,0");
+        }
+        calculadora.setModo(calculadora.MODO_EXIBINDO);
+    });
+
+
+}
 
     public View.OnClickListener botaoCLick(final String s) {
         return (v) -> {
@@ -167,5 +292,7 @@ public class MainActivity extends AppCompatActivity {
         double numero = calculadora.getNumero();
         visor.setText(String.format("%f", numero));
     }
+
+
 
 }

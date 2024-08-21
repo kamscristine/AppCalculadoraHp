@@ -267,7 +267,7 @@
         app:layout_constraintStart_toStartOf="@+id/btnSete" />
 
     <Button
-        android:id="@+id/btnPM"
+        android:id="@+id/btnPMT"
         android:backgroundTint="#E7A6EB"
 
         android:layout_width="wrap_content"
