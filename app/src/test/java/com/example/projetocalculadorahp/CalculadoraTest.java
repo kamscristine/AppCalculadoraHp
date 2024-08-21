@@ -84,7 +84,7 @@ public class CalculadoraTest {
 
     @Test
     public void JurosCompostos() {
-        //caso da internet
+        //caso da internet - usei o mesmo teste da ana
 //        1300, apertar CHS e depois PV;
 //        1, apertar i;
 //        8 apertar n;
